@@ -1,0 +1,139 @@
+<html>
+  <head>
+    <title>User Data Entry</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+}
+
+.container {
+    width: 500px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #000000;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    margin-right: 25px;
+    align-items: right;
+    width: 100px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #cccccc;
+}
+
+input[type="button"] {
+    width: 80px;
+    padding: 10px;
+    background-color: #58b9df;
+    color: #ffffff;
+    border: 0;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+input[type="submit"] {
+    width: 100px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: #ffffff;
+    border: 0;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* label{
+    display: inline-block;
+    width:200px;
+} */
+
+    </style>
+  </head>
+  <body>
+
+    <h1>Enter User Data</h1>
+
+    <div id="formsContainer">
+    <form method="post" id="defform">
+      <label for="key">Key:</label>
+      <input type="text" id="key" name="key">
+      
+      <label for="column_name">Column Name:</label>
+      <input type="text" id="column_name" name="column_name">
+      
+      <label for="value">Column Value:</label>
+      <input type="text" id="value" name="value">
+
+      <input id="submitBtn" type="submit" value="Submit">
+        
+      <br>
+      
+      <!-- <input id="addButton" type="submit" value="Submit"> -->
+    </form>
+
+    </div>
+    
+    <input id="refreshButton" type="button" value="Done">
+
+    </div>
+  
+    <script>
+
+
+  document.getElementById("refreshButton").addEventListener("click", function() {
+    location.reload();
+  });
+        
+        $(document).ready(function() {
+  $("#formsContainer").on("click", "#submitBtn", function(e) {
+    e.preventDefault();
+    var form = $(this).closest("form")[0];
+    sendFormData(form);
+    duplicateForm();
+  });
+});
+
+
+function sendFormData(form) {
+  var formData = new FormData(form);
+  $.ajax({
+    url: '/',
+    type: 'POST',
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function(data) {
+      console.log('Form data sent successfully:', data);
+    },
+    error: function(err) {
+      console.error('Error sending form data:', err);
+    }
+  });
+}
+
+
+function duplicateForm() {
+  var formHTML = $("#defform").clone().wrap('<div>').parent().html();
+  $("#formsContainer").append(formHTML);
+}
+
+
+    </script>
+
+</body>
+
+</html>
